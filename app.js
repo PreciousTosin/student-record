@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 
 import index from './routes/index';
 import users from './routes/users';
+import students from './routes/students';
 
 // var index = require('./routes/index');
 // var users = require('./routes/users');
