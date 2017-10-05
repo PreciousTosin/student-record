@@ -4,6 +4,7 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
 import index from './routes/index';
 import users from './routes/users';
@@ -13,6 +14,8 @@ import students from './routes/students';
 // var users = require('./routes/users');
 
 const app = express();
+mongoose.promise = global.Promise;
+mongoose.connect('mongodb://localhost/andela-googletest');
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
