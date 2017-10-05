@@ -10,12 +10,16 @@ import index from './routes/index';
 import users from './routes/users';
 import students from './routes/students';
 
+import seedDB from './seed';
+
 // var index = require('./routes/index');
 // var users = require('./routes/users');
 
 const app = express();
 mongoose.promise = global.Promise;
 mongoose.connect('mongodb://localhost/andela-googletest');
+
+seedDB();
 
 // view engine setup
 app.set('views', path.join(__dirname, '../views'));
