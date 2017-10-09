@@ -5,6 +5,7 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import webpack from 'webpack';
 
 import index from './routes/index';
 import users from './routes/users';
@@ -22,8 +23,8 @@ mongoose.connect('mongodb://localhost/andela-googletest');
 seedDB();
 
 // view engine setup
-app.set('views', path.join(__dirname, '../views'));
-app.set('view engine', 'hbs');
+// app.set('views', path.join(__dirname, '../views'));
+// app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, '../public', 'images/favicon.ico')));
