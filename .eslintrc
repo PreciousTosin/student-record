@@ -11,6 +11,9 @@
     "linebreak-style": 0
   },
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }
