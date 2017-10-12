@@ -1,30 +1,35 @@
 import path from 'path';
 import webpack from 'webpack';
 
-module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+
+export default {
+  devtool: 'source-map',
   entry: [
     'webpack-hot-middleware/client',
-    './source/index'
+    './source/index',
   ],
+
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
-    publicPath: '/assets/'
+    publicPath: '/assets/',
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
-    loaders: [{
-      tests: /\.js?$/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'source'),
-    }]
+    rules: [{
+      test: /\.jsx|.js?$/,
+      loader: 'babel-loader',
+      include: path.join(__dirname, '../source'),
+      exclude: /node_modules/,
+      options: {
+        presets: ['latest', 'react'],
+      },
+    }],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['ts', '.js', '.jsx'],
   },
 };
