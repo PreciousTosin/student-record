@@ -1,7 +1,10 @@
 /* eslint import/no-extraneous-dependencies: 'off', class-methods-use-this: 'off' */
 
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component, PropTypes } from 'react';
 import { render } from 'react-dom';
+import '../public/stylesheets/style.css';
 
 class App extends Component {
   render() {
