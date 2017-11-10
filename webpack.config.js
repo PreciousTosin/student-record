@@ -12,7 +12,7 @@ export default {
   output: {
     path: path.join(__dirname, 'public'),
     filename: 'bundle.js',
-    publicPath: '/assets/',
+    publicPath: '/',
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
