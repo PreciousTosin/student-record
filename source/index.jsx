@@ -8,6 +8,7 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router,  Link } from 'react-router-dom';
 
 import SwitchRoute from './switch';
+import Table from './table';
 
 import '../public/stylesheets/style.css';
 
@@ -32,9 +33,9 @@ class App extends Component {
 
         <div className="container">
           <h1>ReactJS scaffold</h1>
-
-          <SwitchRoute/>
+          <Table/>
         </div>
+        <SwitchRoute/>
       </div>
     );
   }
