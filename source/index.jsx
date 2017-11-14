@@ -13,6 +13,46 @@ import Table from './table';
 import '../public/stylesheets/style.css';
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      records: [],
+      pageLoaded: false,
+    }
+  }
+  componentDidMount() {
+    this._getRecords();
+  }
+
+  _reFormat(data) {
+    const finalData = {};
+    const largerArr = [];
+
+    data.students.forEach((studentObj) => {
+      const studentArr = $.map(studentObj, el => el.toString());
+      largerArr.push(studentArr);
+    });
+
+    finalData.data = largerArr;
+    console.log(finalData);
+    // console.log(JSON.stringify(finalData));
+    // return JSON.stringify(finalData);
+    return finalData.data;
+  }
+  _getRecords() {
+    $.ajax({
+      url: '/students',
+    }).done((data) => {
+      console.log('RETRIEVED DATA');
+      console.log(data);
+      const arrayData = this._reFormat(data);
+      this.setState({
+        records: arrayData,
+        pageLoaded: true,
+      });
+    });
+  }
   render() {
     return (
       <div>
@@ -33,7 +73,7 @@ class App extends Component {
 
         <div className="container">
           <h1>ReactJS scaffold</h1>
-          <Table/>
+            {this.state.pageLoaded?<Table records={this.state.records}/>: null}
         </div>
         <SwitchRoute/>
       </div>
