@@ -7,46 +7,100 @@ require('datatables.net-buttons-bs4');
 require('datatables.net-responsive-bs4');
 require('datatables.net-select');
 
+let studentTable = '';
+
 class Table extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    console.log(this.props.records);
+    this._renderTable();
+  }
 
-    this.state = {
-      records: [],
+  shouldComponentUpdate(nextProps) {
+    console.log(this.props.records);
+    if (nextProps.records.length !== this.props.records.length) {
+      this._renderTable();
     }
+    return false;
   }
-  _reFormat() {
-    const finalData = {};
-    const largerArr = [];
 
-    data.students.forEach((studentObj) => {
-      const studentArr = $.map(studentObj, el => el.toString());
-      largerArr.push(studentArr);
-    });
-
-    finalData.data = largerArr;
-    console.log(finalData);
-    // console.log(JSON.stringify(finalData));
-    // return JSON.stringify(finalData);
-    return finalData;
-  }
-  _getRecords() {
-    $.ajax({
-      url: '/students',
-    }).done((data) => {
-      console.log('RETRIEVED DATA');
-      console.log(data);
-      return this._reFormat(data);
-    });
+  componentWillUpdate() {
+    console.log(this.props.records);
   }
 
   _renderTable() {
+    studentTable = $(this.refs.mytable).DataTable({
+      columns: [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        {
+          className: 'edit--btn',
+          orderable: false,
+          data: null,
+          width: '5%',
+        },
+        {
+          className: 'delete--btn',
+          orderable: false,
+          data: null,
+          width: '5%',
+        },
+      ],
+      lengthChange: false,
+      select: {
+        style: 'single',
+      },
+      buttons: [
+        {
+          text: 'New Record',
+          action() {
 
-  }
+          },
+        },
+        {
+          text: 'View Record',
+          action() {
+
+          },
+        },
+      ],
+      columnDefs: [
+        {
+          visible: false,
+          targets: [0, 4, 5, 7, 9, 10],
+        },
+        {
+          targets: -1,
+          data: null,
+          defaultContent: '<button class="edit--btn btn btn-danger">Delete!</button>',
+        },
+        {
+          targets: -2,
+          data: null,
+          defaultContent: '<button class="delete--btn btn btn-primary">Edit!</button>',
+        },
+      ],
+      data: this.props.records,
+    });
+
+    studentTable.buttons().container()
+          .appendTo($('.col-md-6:eq(0)', studentTable.table().container()));
+  };
 
   render() {
     return (
-      <table id="my-table" className="display table table-striped table-hover" width="100%">
+      <table ref="mytable" className="display table table-striped table-hover" width="100%">
         <thead>
           <tr>
             <th>ID</th>
