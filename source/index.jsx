@@ -1,4 +1,5 @@
-/* eslint import/no-extraneous-dependencies: 'off', class-methods-use-this: 'off' */
+/* eslint import/no-extraneous-dependencies: 'off', class-methods-use-this: 'off',
+jsx-a11y/anchor-is-valid: 'off' */
 
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
