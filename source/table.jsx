@@ -143,11 +143,11 @@ class Table extends Component {
 }
 
 Table.propTypes = {
-  records: PropTypes.shape([]),
+  records: PropTypes.node,
 };
 
 Table.defaultProps = {
-  records: null,
+  records: [],
 };
 
 export default Table;
