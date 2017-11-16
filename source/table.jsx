@@ -1,4 +1,6 @@
-import React, { Component } from  'react';
+/* eslint import/no-extraneous-dependencies: 'off' */
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 const $ = require('jquery');
 
@@ -10,18 +12,15 @@ require('datatables.net-select');
 let studentTable = '';
 
 class Table extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
     console.log(this.props.records);
-    this._renderTable();
+    this.renderTable();
   }
 
   shouldComponentUpdate(nextProps) {
     console.log(this.props.records);
     if (nextProps.records.length !== this.props.records.length) {
-      this._renderTable();
+      this.renderTable();
     }
     return false;
   }
@@ -30,8 +29,8 @@ class Table extends Component {
     console.log(this.props.records);
   }
 
-  _renderTable() {
-    studentTable = $(this.refs.mytable).DataTable({
+  renderTable() {
+    studentTable = $(this.myTable).DataTable({
       columns: [
         null,
         null,
@@ -94,13 +93,16 @@ class Table extends Component {
       data: this.props.records,
     });
 
-    studentTable.buttons().container()
-          .appendTo($('.col-md-6:eq(0)', studentTable.table().container()));
-  };
+    studentTable.buttons().container().appendTo($('.col-md-6:eq(0)', studentTable.table().container()));
+  }
 
   render() {
     return (
-      <table ref="mytable" className="display table table-striped table-hover" width="100%">
+      <table
+        ref={(table) => { this.myTable = table; }}
+        className='display table table-striped table-hover'
+        width='100%'
+      >
         <thead>
           <tr>
             <th>ID</th>
@@ -139,5 +141,13 @@ class Table extends Component {
     );
   }
 }
+
+Table.propTypes = {
+  records: PropTypes.shape([]),
+};
+
+Table.defaultProps = {
+  records: null,
+};
 
 export default Table;
