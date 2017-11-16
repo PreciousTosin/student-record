@@ -2,15 +2,17 @@
 
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-import { BrowserRouter as Router,  Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 import SwitchRoute from './switch';
 import Table from './table';
 
 import '../public/stylesheets/style.css';
+
+const $ = require('jquery');
 
 class App extends Component {
   constructor() {
@@ -19,13 +21,26 @@ class App extends Component {
     this.state = {
       records: [],
       pageLoaded: false,
-    }
+    };
   }
   componentDidMount() {
-    this._getRecords();
+    this.getRecords();
+  }
+  getRecords() {
+    $.ajax({
+      url: '/students',
+    }).done((data) => {
+      console.log('RETRIEVED DATA');
+      console.log(data);
+      const arrayData = this.reFormat(data);
+      this.setState({
+        records: arrayData,
+        pageLoaded: true,
+      });
+    });
   }
 
-  _reFormat(data) {
+  reFormat(data) {
     const finalData = {};
     const largerArr = [];
 
@@ -40,42 +55,37 @@ class App extends Component {
     // return JSON.stringify(finalData);
     return finalData.data;
   }
-  _getRecords() {
-    $.ajax({
-      url: '/students',
-    }).done((data) => {
-      console.log('RETRIEVED DATA');
-      console.log(data);
-      const arrayData = this._reFormat(data);
-      this.setState({
-        records: arrayData,
-        pageLoaded: true,
-      });
-    });
-  }
+
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <a className="navbar-brand" href="/">NORMAN</a>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+        <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+          <a className='navbar-brand' href='/'>NORMAN</a>
+          <button
+            className='navbar-toggler'
+            type='button'
+            data-toggle='collapse'
+            data-target='#navbarSupportedContent'
+            aria-controls='navbarSupportedContent'
+            aria-expanded='false'
+            aria-label='Toggle navigation'
+          >
+            <span className='navbar-toggler-icon' />
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item"><Link className="nav-link" to="/new">New Record</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/view">View Record</Link></li>
+          <div className='collapse navbar-collapse' id='navbarSupportedContent'>
+            <ul className='navbar-nav mr-auto'>
+              <li className='nav-item'><Link className='nav-link' to='/new'>New Record</Link></li>
+              <li className='nav-item'><Link className='nav-link' to='/view'>View Record</Link></li>
             </ul>
           </div>
         </nav>
 
-        <div className="container">
+        <div className='container'>
           <h1>ReactJS scaffold</h1>
-            {this.state.pageLoaded?<Table records={this.state.records}/>: null}
+          {this.state.pageLoaded ? <Table records={this.state.records} /> : null}
         </div>
-        <SwitchRoute/>
+        <SwitchRoute />
       </div>
     );
   }
@@ -83,6 +93,6 @@ class App extends Component {
 
 render((
   <Router>
-    <App/>
+    <App />
   </Router>
 ), document.getElementById('app'));
